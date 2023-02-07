@@ -1,4 +1,5 @@
 import os
+import random
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','tango_with_django_project.settings')
 
@@ -11,7 +12,7 @@ def populate():
     python_pages = [{
         'title': 'Official Python Tutorial','url':'http://docs.python.org/3/tutorial/'},
         {'title':'How to Think like a Computer Scientist','url':'http://www.greenteapress.com/thinkpython/'},
-        {'title':'Learns Python in 10 Minutes', 'url':'http://www.korokithakis.net/tutorials/python/'}]
+        {'title':'Learn Python in 10 Minutes', 'url':'http://www.korokithakis.net/tutorials/python/'}]
 
     django_pages=[
         {'title': 'Official Django Tutorial',
@@ -39,16 +40,15 @@ def populate():
 
     for cat, cat_data in cats.items():
 
-        c = add_cat(cat)
+        c = add_cat(cat,cat_data["likes"],cat_data["views"])
 
 
         for p in cat_data['pages']:
+            randomInt = random.randint(1,100)
+            add_page(c, p['title'], p['url'],randomInt)
 
-            add_page(c, p['title'], p['url'])
 
-        c.likes = cat_data["likes"]
-        c.views = cat_data["views"]
-        c.save()
+
 
       # Print out the categories we have added.
 
@@ -72,18 +72,7 @@ def add_page(cat, title, url, views=0):
 
     return p
 
-def add_cat(name, views, likes):
-    if name == "Python":
-        likes = 64
-        views = 128
-    elif name== "Django":
-        likes = 32
-        views = 64
-    elif name == "Other Frameworks":
-        likes = 16
-        views = 32
-
-
+def add_cat(name,likes=0,views=0):
 
     c = Category.objects.get_or_create(name=name, views= views, likes= likes)[0]
 
