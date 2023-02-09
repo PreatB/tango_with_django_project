@@ -18,8 +18,8 @@ def index(request):
 
 def about(request):
 
-    context_dict = {'boldmessage':'here is the about page.'}
-    return render(request, 'rango/about.html', context= context_dict )
+
+    return render(request, 'rango/about.html', {} )
 
 
 def show_category(request, category_name_slug):
@@ -63,7 +63,7 @@ def add_page(request, category_name_slug):
         category=None
 
     if category is None:
-        return redirect('/rango')
+        return redirect('/rango/')
 
 
     form = PageForm()
